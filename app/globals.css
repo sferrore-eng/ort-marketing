@@ -3742,3 +3742,219 @@ body {
   }
 }
 
+
+/* =========================================
+   ORT CONTENT LISTING PAGES
+   ========================================= */
+
+.ort-list-page {
+  min-height: 100vh;
+  background: #f5f5f3;
+  color: #111;
+}
+
+.ort-list-hero {
+  padding: 180px 7vw 90px;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.ort-list-kicker {
+  font-size: 10px;
+  letter-spacing: .18em;
+  opacity: .45;
+}
+
+.ort-list-hero h1 {
+  max-width: 1000px;
+  margin: 20px 0 0;
+  font-size: clamp(70px, 11vw, 160px);
+  line-height: .82;
+  letter-spacing: -.08em;
+}
+
+.ort-list-hero p {
+  max-width: 570px;
+  margin-top: 35px;
+  font-size: 18px;
+  line-height: 1.5;
+  opacity: .55;
+}
+
+.ort-list-content {
+  padding: 70px 7vw 130px;
+}
+
+.ort-list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  opacity: .5;
+}
+
+.ort-list-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.ort-list-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  background: #ddd;
+  color: #fff;
+  text-decoration: none;
+}
+
+.ort-list-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  object-fit: cover;
+  display: block;
+  transition: transform .7s cubic-bezier(.2,.7,.2,1);
+}
+
+.ort-list-card:hover img {
+  transform: scale(1.045);
+}
+
+.ort-list-card-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 35px;
+  padding-top: 130px;
+  background: linear-gradient(
+    transparent,
+    rgba(0,0,0,.82)
+  );
+}
+
+.ort-list-card-overlay small {
+  font-size: 10px;
+  letter-spacing: .15em;
+  opacity: .6;
+}
+
+.ort-list-card-overlay h2 {
+  margin: 8px 0 0;
+  font-size: 38px;
+  line-height: .95;
+  letter-spacing: -.045em;
+}
+
+.ort-list-empty {
+  padding: 100px 0;
+  border-top: 1px solid rgba(0,0,0,.1);
+  text-align: center;
+  opacity: .45;
+}
+
+.ort-simple-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.ort-simple-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.ort-simple-card-media {
+  overflow: hidden;
+  background: #ddd;
+  aspect-ratio: 4 / 5;
+}
+
+.ort-simple-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s ease;
+}
+
+.ort-simple-card:hover img {
+  transform: scale(1.04);
+}
+
+.ort-simple-card h2 {
+  margin: 15px 0 4px;
+  font-size: 24px;
+  letter-spacing: -.035em;
+}
+
+.ort-simple-card span {
+  font-size: 11px;
+  opacity: .5;
+}
+
+.ort-back-link {
+  display: inline-flex;
+  margin-top: 35px;
+  color: inherit;
+  text-decoration: none;
+  font-size: 12px;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 5px;
+}
+
+@media (max-width: 800px) {
+  .ort-list-hero {
+    padding: 140px 22px 70px;
+  }
+
+  .ort-list-content {
+    padding: 55px 22px 90px;
+  }
+
+  .ort-list-hero h1 {
+    font-size: clamp(60px, 17vw, 100px);
+  }
+
+  .ort-list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ort-list-card,
+  .ort-list-card img {
+    min-height: 430px;
+  }
+
+  .ort-simple-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .ort-list-hero h1 {
+    font-size: 60px;
+  }
+
+  .ort-list-grid {
+    gap: 10px;
+  }
+
+  .ort-list-card,
+  .ort-list-card img {
+    min-height: 360px;
+  }
+
+  .ort-list-card-overlay {
+    padding: 25px;
+    padding-top: 100px;
+  }
+
+  .ort-list-card-overlay h2 {
+    font-size: 30px;
+  }
+
+  .ort-simple-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
