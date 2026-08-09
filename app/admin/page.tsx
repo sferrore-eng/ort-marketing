@@ -1,83 +1,83 @@
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import CMSOverview from "@/components/admin/cms/CMSOverview";
 
-export default async function AdminPage() {
+export default async function AdminDashboard() {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [
+    brands,
+    projects,
+    team,
+    bts,
+    media,
+  ] = await Promise.all([
+    supabase.from("brands").select("id", { count: "exact", head: true }),
+    supabase.from("projects").select("id", { count: "exact", head: true }),
+    supabase.from("team_members").select("id", { count: "exact", head: true }),
+    supabase.from("bts").select("id", { count: "exact", head: true }),
+    supabase.from("media").select("id", { count: "exact", head: true }),
+  ]);
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  const { data: admin } = await supabase
-    .from("admins")
-    .select("user_id")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if (!admin) {
-    redirect("/login");
-  }
+  const stats = {
+    brands: brands.count ?? 0,
+    projects: projects.count ?? 0,
+    team: team.count ?? 0,
+    bts: bts.count ?? 0,
+    media: media.count ?? 0,
+  };
 
   return (
-    <main className="admin-page">
-      <header className="admin-header">
+    <main className="cms-page">
+      <div className="cms-page-header">
         <div>
-          <span className="admin-eyebrow">ORT MARKETING</span>
+          <span>ORT / ADMIN</span>
           <h1>Dashboard</h1>
+          <p>
+            Overview of your ORT Marketing website.
+          </p>
+        </div>
+      </div>
+
+      <CMSOverview stats={stats} />
+
+      <section className="cms-card">
+        <div className="cms-section-head">
+          <div>
+            <span>CONTENT MANAGEMENT</span>
+            <h2>Manage your website</h2>
+          </div>
         </div>
 
-        <form action="/auth/signout" method="post">
-          <button className="logout-button" type="submit">
-            Logout
-          </button>
-        </form>
-      </header>
+        <div className="cms-quick-actions">
+          <Link href="/admin/brands">
+            Manage Brands ↗
+          </Link>
 
-      <section className="admin-welcome">
-        <p>Welcome back.</p>
-        <h2>{user.email}</h2>
-      </section>
+          <Link href="/admin/projects">
+            Manage Projects ↗
+          </Link>
 
-      <section className="dashboard-grid">
-        <article>
-          <span>01</span>
-          <h3>Brands</h3>
-          <p>Manage clients and brand profiles.</p>
-        </article>
+          <Link href="/admin/team">
+            Manage Team ↗
+          </Link>
 
-        <article>
-          <span>02</span>
-          <h3>Projects</h3>
-          <p>Manage campaigns and creative work.</p>
-        </article>
+          <Link href="/admin/bts">
+            Manage BTS ↗
+          </Link>
 
-        <article>
-          <span>03</span>
-          <h3>People</h3>
-          <p>Models, editors, photographers and directors.</p>
-        </article>
+          <Link href="/admin/media">
+            Media Library ↗
+          </Link>
 
-        <article>
-          <span>04</span>
-          <h3>Media</h3>
-          <p>Photos, reels and behind the scenes.</p>
-        </article>
+          <Link href="/admin/content">
+            Homepage Content ↗
+          </Link>
 
-        <article>
-          <span>05</span>
-          <h3>Website</h3>
-          <p>Control the public website experience.</p>
-        </article>
-
-        <article>
-          <span>06</span>
-          <h3>Settings</h3>
-          <p>Global ORT Marketing settings.</p>
-        </article>
+          <Link href="/admin/settings">
+            Site Settings ↗
+          </Link>
+        </div>
       </section>
     </main>
   );
