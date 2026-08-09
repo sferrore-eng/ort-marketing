@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import PublishToggle from "@/components/admin/cms/PublishToggle";
+import ContentManager from "@/components/admin/cms/ContentManager";
 
 export default async function ContentPage() {
   const supabase = await createClient();
@@ -37,25 +36,21 @@ export default async function ContentPage() {
       title: "Brands",
       table: "brands",
       items: brands ?? [],
-      name: (item: any) => item.name,
     },
     {
       title: "Projects",
       table: "projects",
       items: projects ?? [],
-      name: (item: any) => item.title,
     },
     {
       title: "Team",
       table: "team_members",
       items: team ?? [],
-      name: (item: any) => item.name,
     },
     {
       title: "BTS",
       table: "bts",
       items: bts ?? [],
-      name: (item: any) => item.title,
     },
   ];
 
@@ -67,62 +62,13 @@ export default async function ContentPage() {
           <span>ORT / CMS</span>
           <h1>Content</h1>
           <p>
-            Control what appears on the public website.
+            Search, filter and control everything
+            published on the ORT website.
           </p>
         </div>
       </div>
 
-      {groups.map((group) => (
-        <section
-          className="cms-card"
-          key={group.table}
-        >
-          <div className="cms-section-head">
-            <div>
-              <span>{group.title.toUpperCase()}</span>
-              <h2>{group.items.length} items</h2>
-            </div>
-
-            <Link
-              href={`/admin/${group.table === "team_members" ? "team" : group.table}`}
-            >
-              Manage ↗
-            </Link>
-          </div>
-
-          {group.items.length === 0 ? (
-            <div className="cms-empty">
-              No {group.title.toLowerCase()} yet.
-            </div>
-          ) : (
-            <div className="cms-content-list">
-              {group.items.map((item: any) => (
-                <div
-                  className="cms-content-row"
-                  key={item.id}
-                >
-                  <div>
-                    <strong>
-                      {group.name(item)}
-                    </strong>
-
-                    <small>
-                      /{item.slug}
-                    </small>
-                  </div>
-
-                  <PublishToggle
-                    table={group.table}
-                    id={item.id}
-                    published={item.published !== false}
-                    featured={item.featured === true}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
+      <ContentManager groups={groups} />
 
     </main>
   );
