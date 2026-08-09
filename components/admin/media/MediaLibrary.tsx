@@ -1,397 +1,145 @@
 "use client";
 
-import {
-  ChangeEvent,
-  useEffect,
-  useState,
-} from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
-type MediaFile = {
-  name: string;
-  path: string;
+type MediaItem = {
+  id: string;
   url: string;
+  filename?: string;
+  mime_type?: string;
   size?: number;
 };
 
-const folders = [
-  "all",
-  "brands/logos",
-  "brands/covers",
-  "projects/covers",
-  "team/profiles",
-];
-
-function formatFileSize(size?: number) {
-  if (!size) return "";
-
-  if (size < 1024) {
-    return `${size} B`;
-  }
-
-  if (size < 1024 * 1024) {
-    return `${(size / 1024).toFixed(1)} KB`;
-  }
-
-  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
-}
-
 export default function MediaLibrary() {
-  const supabase = createClient();
+  const [media, setMedia] = useState<MediaItem[]>([]);
+  const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const [files, setFiles] = useState<MediaFile[]>(
-    []
-  );
+  async function loadMedia() {
+    const response = await fetch("/api/media");
 
-  const [folder, setFolder] =
-    useState("all");
+    if (!response.ok) return;
 
-  const [search, setSearch] =
-    useState("");
+    const data = await response.json();
 
-  const [loading, setLoading] =
-    useState(true);
-
-  const [uploading, setUploading] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  async function loadFiles() {
-    setLoading(true);
-    setError("");
-
-    const foldersToLoad =
-      folder === "all"
-        ? folders.filter(
-            (item) => item !== "all"
-          )
-        : [folder];
-
-    const allFiles: MediaFile[] = [];
-
-    for (const currentFolder of foldersToLoad) {
-      const { data, error } =
-        await supabase.storage
-          .from("media")
-          .list(currentFolder, {
-            limit: 100,
-            sortBy: {
-              column: "created_at",
-              order: "desc",
-            },
-          });
-
-      if (error) {
-        setError(error.message);
-        setLoading(false);
-        return;
-      }
-
-      for (const file of data || []) {
-        if (!file.name) continue;
-
-        const path =
-          `${currentFolder}/${file.name}`;
-
-        const {
-          data: publicData,
-        } = supabase.storage
-          .from("media")
-          .getPublicUrl(path);
-
-        allFiles.push({
-          name: file.name,
-          path,
-          url: publicData.publicUrl,
-          size: file.metadata?.size,
-        });
-      }
-    }
-
-    setFiles(allFiles);
-    setLoading(false);
+    setMedia(data.media ?? []);
   }
 
   useEffect(() => {
-    loadFiles();
-  }, [folder]);
+    loadMedia();
+  }, []);
 
   async function handleUpload(
-    event: ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>
   ) {
-    const selectedFiles =
-      event.target.files;
+    const file = event.target.files?.[0];
 
-    if (!selectedFiles?.length) {
-      return;
-    }
+    if (!file) return;
 
     setUploading(true);
-    setError("");
+    setMessage("");
 
-    const uploadFolder =
-      folder === "all"
-        ? "uploads"
-        : folder;
+    const formData = new FormData();
+    formData.append("file", file);
 
-    for (const file of Array.from(
-      selectedFiles
-    )) {
-      if (!file.type.startsWith("image/")) {
-        setError(
-          "Only image files are allowed."
-        );
-        continue;
-      }
-
-      if (
-        file.size >
-        10 * 1024 * 1024
-      ) {
-        setError(
-          `${file.name} is larger than 10MB.`
-        );
-        continue;
-      }
-
-      const extension =
-        file.name
-          .split(".")
-          .pop()
-          ?.toLowerCase() || "jpg";
-
-      const fileName =
-        `${crypto.randomUUID()}.${extension}`;
-
-      const filePath =
-        `${uploadFolder}/${fileName}`;
-
-      const { error: uploadError } =
-        await supabase.storage
-          .from("media")
-          .upload(
-            filePath,
-            file,
-            {
-              cacheControl: "3600",
-              upsert: false,
-            }
-          );
-
-      if (uploadError) {
-        setError(
-          uploadError.message
-        );
-      }
-    }
-
-    event.target.value = "";
-
-    setUploading(false);
-
-    await loadFiles();
-  }
-
-  async function deleteFile(
-    file: MediaFile
-  ) {
-    const confirmed =
-      window.confirm(
-        `Delete "${file.name}"?\n\nThis action cannot be undone.`
-      );
-
-    if (!confirmed) {
-      return;
-    }
-
-    const { error } =
-      await supabase.storage
-        .from("media")
-        .remove([file.path]);
-
-    if (error) {
-      setError(error.message);
-      return;
-    }
-
-    setFiles((current) =>
-      current.filter(
-        (item) =>
-          item.path !== file.path
-      )
-    );
-  }
-
-  async function copyUrl(
-    url: string
-  ) {
     try {
-      await navigator.clipboard.writeText(
-        url
+      const response = await fetch(
+        "/api/media/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
       );
 
-      alert("URL copied.");
-    } catch {
-      setError(
-        "Unable to copy URL."
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error || "Upload failed"
+        );
+      }
+
+      setMessage("Upload successful.");
+      await loadMedia();
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Upload failed."
       );
+    } finally {
+      setUploading(false);
+      event.target.value = "";
     }
   }
-
-  const filteredFiles =
-    files.filter((file) =>
-      file.name
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
-    );
 
   return (
-    <div className="media-library">
-      <div className="media-toolbar">
-        <div className="media-search">
+    <div className="cms-card">
+
+      <div className="cms-section-head">
+        <div>
+          <span>MEDIA</span>
+          <h2>Media Library</h2>
+          <p>
+            Upload and manage images used across ORT.
+          </p>
+        </div>
+
+        <label className="cms-upload-button">
+          {uploading
+            ? "Uploading..."
+            : "Upload image"}
+
           <input
-            type="search"
-            placeholder="Search media..."
-            value={search}
-            onChange={(event) =>
-              setSearch(
-                event.target.value
-              )
-            }
+            type="file"
+            accept="image/*"
+            onChange={handleUpload}
+            disabled={uploading}
+            hidden
           />
-        </div>
-
-        <div className="media-upload">
-          <label className="button-primary">
-            {uploading
-              ? "Uploading..."
-              : "Upload images"}
-
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              hidden
-              disabled={uploading}
-              onChange={
-                handleUpload
-              }
-            />
-          </label>
-        </div>
+        </label>
       </div>
 
-      <div className="media-folders">
-        {folders.map(
-          (item) => (
-            <button
-              key={item}
-              type="button"
-              className={
-                folder === item
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setFolder(item)
-              }
-            >
-              {item === "all"
-                ? "All"
-                : item
-                    .split("/")
-                    .pop()}
-            </button>
-          )
-        )}
-      </div>
-
-      {error && (
-        <div className="form-error">
-          {error}
+      {message && (
+        <div className="cms-message">
+          {message}
         </div>
       )}
 
-      {loading ? (
-        <div className="media-empty">
-          Loading media...
-        </div>
-      ) : filteredFiles.length ===
-        0 ? (
-        <div className="media-empty">
-          <span>00</span>
-
-          <h2>
-            No media found.
-          </h2>
-
+      {media.length === 0 ? (
+        <div className="cms-empty">
+          <strong>No media yet.</strong>
           <p>
-            Upload an image to start
-            building your library.
+            Upload your first image to start building
+            the ORT media library.
           </p>
         </div>
       ) : (
-        <div className="media-grid">
-          {filteredFiles.map(
-            (file) => (
-              <article
-                key={file.path}
-                className="media-card"
-              >
-                <div className="media-image">
-                  <img
-                    src={file.url}
-                    alt={file.name}
-                  />
-                </div>
+        <div className="cms-media-grid">
+          {media.map((item) => (
+            <div
+              className="cms-media-item"
+              key={item.id}
+            >
+              <img
+                src={item.url}
+                alt={item.filename || "ORT media"}
+              />
 
-                <div className="media-card-info">
-                  <strong
-                    title={file.name}
-                  >
-                    {file.name}
-                  </strong>
+              <div>
+                <strong>
+                  {item.filename || "Image"}
+                </strong>
 
-                  <span>
-                    {formatFileSize(
-                      file.size
-                    )}
-                  </span>
-                </div>
-
-                <div className="media-card-actions">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      copyUrl(
-                        file.url
-                      )
-                    }
-                  >
-                    Copy URL
-                  </button>
-
-                  <button
-                    type="button"
-                    className="delete-action"
-                    onClick={() =>
-                      deleteFile(
-                        file
-                      )
-                    }
-                  >
-                    Delete
-                  </button>
-                </div>
-              </article>
-            )
-          )}
+                <small>
+                  {item.mime_type || "image"}
+                </small>
+              </div>
+            </div>
+          ))}
         </div>
       )}
+
     </div>
   );
 }
