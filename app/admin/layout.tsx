@@ -1,21 +1,28 @@
-import AdminSidebar from "./components/AdminSidebar";
-import CMSHeader from "@/components/admin/cms/CMSHeader";
+import AdminSidebar from "@/app/admin/components/AdminSidebar";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
   return (
-    <div className="cms-shell">
+    <div className="admin-shell">
       <AdminSidebar />
 
-      <main className="cms-main">
-        <CMSHeader />
-
-        <div className="cms-content">
-          {children}
-        </div>
+      <main className="admin-main">
+        {children}
       </main>
     </div>
   );

@@ -3,84 +3,57 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navigation = [
-  {
-    title: "CONTENT",
-    items: [
-      { label: "Overview", href: "/admin" },
-      { label: "Brands", href: "/admin/brands" },
-      { label: "Projects", href: "/admin/projects" },
-      { label: "Team", href: "/admin/team" },
-      { label: "Behind the Scenes", href: "/admin/bts" },
-    ],
-  },
-  {
-    title: "WEBSITE",
-    items: [
-      { label: "Homepage", href: "/admin/website/home" },
-      { label: "About", href: "/admin/website/about" },
-      { label: "Navigation", href: "/admin/website/navigation" },
-      { label: "Design", href: "/admin/website/design" },
-    ],
-  },
-  {
-    title: "MEDIA",
-    items: [
-      { label: "Media Library", href: "/admin/media" },
-    ],
-  },
+const links = [
+  { href: "/admin", label: "Overview" },
+  { href: "/admin/content", label: "Content" },
+  { href: "/admin/projects", label: "Projects" },
+  { href: "/admin/brands", label: "Brands" },
+  { href: "/admin/team", label: "Team" },
+  { href: "/admin/bts", label: "BTS" },
+  { href: "/admin/media", label: "Media" },
+  { href: "/admin/settings", label: "Settings" },
 ];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="cms-sidebar">
-      <div className="cms-sidebar-logo">
+    <aside className="admin-sidebar">
+      <div className="admin-sidebar-logo">
         ORT<span>.</span>
       </div>
 
-      <nav>
-        {navigation.map((section) => (
-          <div
-            key={section.title}
-            className="cms-nav-section"
-          >
-            <span className="cms-nav-label">
-              {section.title}
-            </span>
+      <nav className="admin-sidebar-nav">
+        {links.map((link) => {
+          const active =
+            pathname === link.href ||
+            (link.href !== "/admin" &&
+              pathname.startsWith(link.href));
 
-            <div className="cms-nav-links">
-              {section.items.map((item) => {
-                const active =
-                  pathname === item.href ||
-                  pathname.startsWith(
-                    `${item.href}/`
-                  );
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={
-                      active
-                        ? "cms-nav-link active"
-                        : "cms-nav-link"
-                    }
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={
+                active
+                  ? "admin-nav-link active"
+                  : "admin-nav-link"
+              }
+            >
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
 
-      <div className="cms-sidebar-bottom">
-        <Link href="/" className="cms-view-site">
-          View website ↗
-        </Link>
+      <div className="admin-sidebar-footer">
+        <Link href="/">View website ↗</Link>
+
+        <form action="/auth/signout" method="POST">
+          <button type="submit">
+            Sign out
+          </button>
+        </form>
       </div>
     </aside>
   );
