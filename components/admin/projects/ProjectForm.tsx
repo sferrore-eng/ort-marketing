@@ -1,5 +1,7 @@
 "use client";
 
+import MediaField from "@/components/admin/media/MediaField";
+
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";

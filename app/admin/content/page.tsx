@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import ContentManager from "@/components/admin/cms/ContentManager";
+import HeroEditor from "@/components/admin/cms/HeroEditor";
 
 export default async function ContentPage() {
   const supabase = await createClient();
@@ -67,6 +68,12 @@ export default async function ContentPage() {
           </p>
         </div>
       </div>
+
+      <HeroEditor
+        initialTitle={undefined}
+        initialSubtitle={undefined}
+        initialDescription={undefined}
+      />
 
       <ContentManager groups={groups} />
 

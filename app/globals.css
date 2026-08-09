@@ -2859,3 +2859,131 @@ body {
   }
 }
 
+
+.cms-media-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cms-media-preview {
+  width: 240px;
+  position: relative;
+}
+
+.cms-media-preview img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.cms-media-preview button {
+  margin-top: 8px;
+  border: 1px solid #111;
+  background: transparent;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.cms-media-picker-button {
+  width: fit-content;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+
+.cms-media-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.cms-media-modal-inner {
+  width: min(1000px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  padding: 30px;
+}
+
+.cms-media-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.cms-media-modal-header span {
+  font-size: 11px;
+  letter-spacing: .15em;
+  opacity: .5;
+}
+
+.cms-media-modal-header h3 {
+  margin: 5px 0 0;
+  font-size: 28px;
+}
+
+.cms-media-modal-header button {
+  border: 1px solid #111;
+  background: transparent;
+  padding: 9px 15px;
+  cursor: pointer;
+}
+
+.cms-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.cms-picker-item {
+  border: 1px solid rgba(0,0,0,.1);
+  background: #fff;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cms-picker-item:hover {
+  border-color: #111;
+}
+
+.cms-picker-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.cms-picker-item span {
+  display: block;
+  padding: 10px;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 800px) {
+  .cms-picker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cms-media-modal {
+    padding: 10px;
+  }
+
+  .cms-media-modal-inner {
+    padding: 20px;
+  }
+}
+
