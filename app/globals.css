@@ -1607,3 +1607,100 @@ body {
     grid-template-columns: 1fr;
   }
 }
+/* ===== ORT PUBLIC WEBSITE ===== */
+.ort-site{background:#f4f3ef;color:#111;min-height:100vh;font-family:Arial,Helvetica,sans-serif}
+.ort-header{height:82px;padding:0 4vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #111;background:#f4f3ef;position:relative;z-index:5}
+.ort-logo{font-size:34px;font-weight:900;letter-spacing:-3px;color:#111;text-decoration:none}
+.ort-header nav{display:flex;gap:34px}
+.ort-header nav a,.ort-header-cta{color:#111;text-decoration:none;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.ort-header-cta{border:1px solid #111;padding:12px 18px}
+.ort-hero{min-height:calc(100vh - 82px);padding:7vw 4vw;display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid #111}
+.ort-hero-kicker,.ort-section small,.ort-bts-card span{font-size:11px;letter-spacing:.14em;font-weight:700}
+.ort-hero h1{font-size:clamp(58px,9vw,150px);line-height:.86;letter-spacing:-.07em;margin:28px 0;max-width:1100px}
+.ort-hero h1 span{font-style:italic}
+.ort-hero p{font-size:20px;line-height:1.5;max-width:580px}
+.ort-hero-actions{display:flex;gap:12px;margin-top:30px}
+.ort-button{display:inline-block;background:#111;color:#fff;text-decoration:none;padding:16px 24px;text-transform:uppercase;font-size:12px;letter-spacing:.08em}
+.ort-button-light{background:transparent;color:#111;border:1px solid #111}
+.ort-marquee{display:flex;justify-content:space-between;gap:20px;padding:18px 4vw;border-bottom:1px solid #111;font-size:12px;font-weight:800;letter-spacing:.1em;overflow:hidden}
+.ort-section,.ort-dark-section,.ort-bts-section{padding:110px 4vw}
+.ort-section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:55px}
+.ort-section-head h2{font-size:clamp(42px,6vw,88px);line-height:.9;letter-spacing:-.06em;margin:18px 0 0}
+.ort-section-head a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:5px;font-size:12px;text-transform:uppercase}
+.ort-project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.ort-project-card{height:460px;position:relative;overflow:hidden;background:#ddd;text-decoration:none;color:#fff}
+.ort-project-card.large{height:620px}
+.ort-project-card img,.ort-person-card img,.ort-bts-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.ort-project-card:hover img,.ort-person-card:hover img,.ort-bts-card:hover img{transform:scale(1.04)}
+.ort-image-placeholder{height:100%;display:flex;align-items:center;justify-content:center;background:#222;color:#fff;font-size:80px;font-weight:900}
+.ort-card-overlay{position:absolute;inset:auto 0 0;padding:28px;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.ort-card-overlay span{font-size:10px;letter-spacing:.14em}
+.ort-card-overlay h3{font-size:32px;margin:8px 0 0}
+.ort-dark-section{background:#111;color:#fff}
+.ort-dark-section .ort-section-head a{color:#fff}
+.ort-brands-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #555;border-left:1px solid #555}
+.ort-brand-card{height:180px;border-right:1px solid #555;border-bottom:1px solid #555;display:flex;align-items:center;justify-content:center;padding:35px;text-decoration:none;color:#fff}
+.ort-brand-card img{max-width:80%;max-height:80px;object-fit:contain;filter:brightness(0) invert(1)}
+.ort-brand-card strong{font-size:24px;text-align:center}
+.ort-team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ort-person-card{text-decoration:none;color:#111}
+.ort-person-card{overflow:hidden}
+.ort-person-card img,.ort-person-placeholder{height:430px;width:100%;object-fit:cover;background:#ddd}
+.ort-person-placeholder{display:flex;align-items:center;justify-content:center;font-size:100px;font-weight:900}
+.ort-person-card h3{font-size:24px;margin:15px 0 4px}
+.ort-person-card span{text-transform:uppercase;font-size:10px;letter-spacing:.12em}
+.ort-bts-section{background:#e6e3dc}
+.ort-bts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ort-bts-card{text-decoration:none;color:#111}
+.ort-bts-card img{height:330px;margin-bottom:18px}
+.ort-bts-card h3{font-size:26px;margin:10px 0}
+.ort-contact{background:#d7ff3f;padding:130px 4vw}
+.ort-contact small{font-size:11px;font-weight:800;letter-spacing:.15em}
+.ort-contact h2{font-size:clamp(60px,10vw,150px);line-height:.8;letter-spacing:-.07em;margin:30px 0 60px}
+.ort-contact a{font-size:clamp(24px,4vw,55px);color:#111;text-decoration:none;border-bottom:2px solid #111}
+.ort-footer{background:#111;color:#fff;padding:35px 4vw;display:flex;justify-content:space-between;align-items:center;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+.ort-footer strong{font-size:32px;letter-spacing:-3px}
+@media(max-width:800px){
+.ort-header{padding:0 20px}.ort-header nav{display:none}.ort-header-cta{padding:9px 12px}
+.ort-hero{padding:60px 20px;min-height:75vh}.ort-section,.ort-dark-section,.ort-bts-section{padding:75px 20px}
+.ort-marquee{padding:15px 20px;justify-content:flex-start;flex-wrap:wrap}
+.ort-project-grid,.ort-team-grid,.ort-bts-grid{grid-template-columns:1fr}
+.ort-project-card,.ort-project-card.large{height:420px}.ort-brands-grid{grid-template-columns:repeat(2,1fr)}
+.ort-brand-card{height:140px}.ort-section-head{display:block}.ort-section-head a{display:inline-block;margin-top:25px}
+.ort-person-card img,.ort-person-placeholder{height:500px}.ort-contact{padding:90px 20px}.ort-footer{padding:30px 20px;display:grid;gap:15px}
+}
+
+/* ===== ORT INNER PAGES ===== */
+.ort-page-hero{padding:130px 4vw 100px;border-bottom:1px solid #111}
+.ort-page-hero h1{font-size:clamp(80px,14vw,190px);line-height:.8;letter-spacing:-.08em;margin:35px 0}
+.ort-page-hero p{font-size:20px;max-width:600px;line-height:1.5}
+.ort-detail{padding:100px 4vw 130px}
+.ort-detail>h1{font-size:clamp(60px,10vw,150px);line-height:.82;letter-spacing:-.07em;margin:25px 0 70px}
+.ort-detail-image{width:100%;max-height:750px;object-fit:cover;display:block;background:#ddd}
+.ort-detail-copy{font-size:clamp(20px,3vw,38px);line-height:1.35;max-width:850px;margin:65px 0}
+.ort-detail-links{display:flex;gap:30px;margin-bottom:60px}
+.ort-detail-links a,.ort-back-link{color:#111;text-decoration:none;text-transform:uppercase;font-size:12px;letter-spacing:.1em;border-bottom:1px solid #111;padding-bottom:5px}
+.ort-back-link{display:inline-block;margin-top:70px}
+.ort-person-detail{max-width:1300px;margin:auto}
+@media(max-width:800px){
+.ort-page-hero{padding:90px 20px 70px}
+.ort-detail{padding:70px 20px 90px}
+.ort-detail>h1{margin-bottom:45px}
+}
+
+/* ===== ADMIN WEBSITE PAGES ===== */
+.admin-page{padding:50px}
+.admin-page-header{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:50px}
+.admin-page-header span{font-size:11px;letter-spacing:.12em;font-weight:700}
+.admin-page-header h1{font-size:clamp(45px,7vw,90px);line-height:.9;letter-spacing:-.06em;margin:15px 0}
+.admin-page-header p{margin:0;color:#666}
+.admin-empty-state{border:1px solid #ccc;padding:60px;display:flex;flex-direction:column;gap:20px}
+.admin-empty-state strong{font-size:28px}
+.admin-empty-state p{max-width:600px;color:#666}
+.admin-list{border-top:1px solid #111}
+.admin-list-row{display:grid;grid-template-columns:80px 1fr auto;align-items:center;padding:25px 0;border-bottom:1px solid #ccc}
+.admin-list-row a{color:#111;text-decoration:none;border-bottom:1px solid #111;padding-bottom:4px}
+@media(max-width:700px){
+.admin-page{padding:30px 20px}.admin-page-header{display:block}.admin-page-header .button-secondary{display:inline-block;margin-top:25px}.admin-list-row{grid-template-columns:45px 1fr}
+.admin-list-row a{grid-column:2;margin-top:8px;width:max-content}
+}
