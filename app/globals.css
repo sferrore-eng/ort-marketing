@@ -4557,3 +4557,447 @@ select:focus-visible {
 
 }
 
+
+/* =========================================
+   ORT — FINAL PERFORMANCE LAYER
+   ========================================= */
+
+/* Prevent accidental layout overflow */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Improve rendering for large visual sections */
+.ort-hero,
+.ort-dark-section,
+.ort-section,
+.ort-bts-section,
+.ort-contact {
+  contain: layout paint;
+}
+
+/* Keep media predictable */
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* Native browser optimization for off-screen media */
+img[loading="lazy"],
+video {
+  content-visibility: auto;
+}
+
+/* Avoid expensive animations when the page is not interacting */
+@media (prefers-reduced-motion: no-preference) {
+  .ort-project-card,
+  .ort-list-card,
+  .ort-brand-card,
+  .ort-button,
+  .ort-header a {
+    will-change: transform;
+  }
+}
+
+/* Disable unnecessary GPU hints on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .ort-project-card,
+  .ort-list-card,
+  .ort-brand-card,
+  .ort-button,
+  .ort-header a {
+    will-change: auto;
+  }
+}
+
+/* Better text rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent long content from breaking layouts */
+h1,
+h2,
+h3,
+h4,
+p,
+a {
+  overflow-wrap: break-word;
+}
+
+/* Avoid invisible focus/interaction artifacts */
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Respect reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .ort-project-card,
+  .ort-list-card,
+  .ort-brand-card,
+  .ort-button,
+  .ort-header a {
+    will-change: auto !important;
+  }
+}
+
+
+/* =========================================
+   ORT — VISUAL POLISH 22.1
+   GLOBAL TYPOGRAPHY + SPACING
+   ========================================= */
+
+:root {
+  --ort-space-xs: 8px;
+  --ort-space-sm: 14px;
+  --ort-space-md: 22px;
+  --ort-space-lg: 40px;
+  --ort-space-xl: 70px;
+  --ort-space-2xl: 110px;
+
+  --ort-radius-sm: 4px;
+  --ort-radius-md: 8px;
+  --ort-radius-lg: 14px;
+
+  --ort-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+
+body {
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ---------- LINKS ---------- */
+
+a {
+  transition:
+    opacity .25s var(--ort-ease),
+    transform .25s var(--ort-ease),
+    color .25s var(--ort-ease);
+}
+
+/* ---------- BUTTONS ---------- */
+
+button,
+.ort-button {
+  transition:
+    transform .3s var(--ort-ease),
+    opacity .3s var(--ort-ease),
+    background-color .3s var(--ort-ease),
+    border-color .3s var(--ort-ease);
+}
+
+button:hover,
+.ort-button:hover {
+  transform: translateY(-2px);
+}
+
+button:active,
+.ort-button:active {
+  transform: translateY(0);
+}
+
+/* ---------- CARDS ---------- */
+
+.ort-project-card,
+.ort-list-card,
+.ort-brand-card {
+  transition:
+    transform .5s var(--ort-ease),
+    box-shadow .5s var(--ort-ease);
+}
+
+.ort-project-card:hover,
+.ort-list-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ---------- IMAGE POLISH ---------- */
+
+.ort-project-card img,
+.ort-list-card img {
+  transition:
+    transform .8s var(--ort-ease),
+    filter .5s ease;
+}
+
+.ort-project-card:hover img,
+.ort-list-card:hover img {
+  transform: scale(1.035);
+}
+
+/* ---------- OVERLAYS ---------- */
+
+.ort-card-overlay {
+  transition:
+    opacity .4s ease,
+    background .4s ease;
+}
+
+/* ---------- SECTION RHYTHM ---------- */
+
+.ort-section,
+.ort-dark-section,
+.ort-bts-section,
+.ort-contact {
+  scroll-margin-top: 100px;
+}
+
+/* ---------- SELECTION ---------- */
+
+::selection {
+  background: currentColor;
+  color: #fff;
+}
+
+/* ---------- MOBILE POLISH ---------- */
+
+@media (max-width: 700px) {
+
+  body {
+    letter-spacing: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    letter-spacing: -0.035em;
+  }
+
+  .ort-project-card:hover,
+  .ort-list-card:hover {
+    transform: none;
+  }
+
+  .ort-project-card:hover img,
+  .ort-list-card:hover img {
+    transform: none;
+  }
+
+  button:hover,
+  .ort-button:hover {
+    transform: none;
+  }
+
+}
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  a,
+  button,
+  .ort-button,
+  .ort-project-card,
+  .ort-list-card,
+  .ort-brand-card,
+  .ort-project-card img,
+  .ort-list-card img {
+    transition: none !important;
+  }
+
+}
+
+
+/* =========================================
+   ORT — VISUAL POLISH 22.2
+   HEADER + NAVIGATION
+   ========================================= */
+
+/* ---------- HEADER BASE ---------- */
+
+.ort-header {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  transition:
+    padding .45s cubic-bezier(.22, 1, .36, 1),
+    background-color .45s ease,
+    border-color .45s ease;
+}
+
+/* ---------- LOGO ---------- */
+
+.ort-header-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    opacity .25s ease,
+    transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ort-header-logo:hover {
+  opacity: .72;
+  transform: translateY(-1px);
+}
+
+/* ---------- NAV ---------- */
+
+.ort-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.2vw, 34px);
+}
+
+.ort-header nav a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: .58;
+  transition:
+    opacity .25s ease,
+    transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ort-header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition:
+    transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ort-header nav a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.ort-header nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ---------- CTA ---------- */
+
+.ort-header-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid currentColor;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color .3s ease,
+    color .3s ease,
+    transform .3s cubic-bezier(.22, 1, .36, 1),
+    opacity .3s ease;
+}
+
+.ort-header-cta:hover {
+  background: currentColor;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.ort-header-cta:active {
+  transform: translateY(0);
+}
+
+/* ---------- HEADER LIGHT BACKGROUND ---------- */
+
+.ort-header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+  .ort-header {
+    gap: 15px;
+  }
+
+  .ort-header-logo {
+    flex-shrink: 0;
+  }
+
+  .ort-header-cta {
+    min-height: 34px;
+    padding: 0 13px;
+  }
+
+}
+
+/* ---------- SMALL PHONE ---------- */
+
+@media (max-width: 480px) {
+
+  .ort-header {
+    gap: 10px;
+  }
+
+  .ort-header-logo {
+    letter-spacing: -0.07em;
+  }
+
+  .ort-header-cta {
+    min-height: 32px;
+    padding: 0 11px;
+  }
+
+}
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ort-header,
+  .ort-header-logo,
+  .ort-header nav a,
+  .ort-header nav a::after,
+  .ort-header-cta {
+    transition: none !important;
+  }
+
+}
+
