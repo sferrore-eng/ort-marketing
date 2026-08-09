@@ -1435,3 +1435,26 @@ body {
   }
 }
 
+.team-table-head,
+.team-row {
+  grid-template-columns:
+    minmax(300px, 1fr)
+    150px
+    150px
+    180px;
+}
+
+.team-row {
+  min-height: 96px;
+}
+
+@media (max-width: 1000px) {
+  .team-table-head {
+    display: none;
+  }
+
+  .team-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
