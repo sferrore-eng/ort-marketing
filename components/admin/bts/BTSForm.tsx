@@ -69,7 +69,16 @@ export default function BTSForm({ item }: BTSFormProps) {
     setSaving(true);
     setError("");
 
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      setError("You must be logged in to create BTS content.");
+      setSaving(false);
+      return;
+    }
+
     const payload = {
+        user_id: user.id,
       title: title.trim(),
       slug: slug.trim(),
       description: description.trim() || null,
