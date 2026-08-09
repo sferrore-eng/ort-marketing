@@ -36,7 +36,7 @@ export default async function EditTeamMemberPage({
           <h1>Edit profile</h1>
 
           <p className="brands-page-description">
-            Update {member.name}'s profile,
+            Update {member.name}&apos;s profile,
             links and visibility.
           </p>
         </div>

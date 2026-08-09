@@ -1,17 +1,14 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://ortcompany.com";
+const baseUrl = "https://ort-marketing-aacu.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
-    "/programs",
-    "/reels",
-    "/for-you",
-    "/news",
-    "/store",
-    "/about",
-    "/contact",
+    "/projects",
+    "/brands",
+    "/bts",
+    "/team",
   ];
 
   return routes.map((route) => ({

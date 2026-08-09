@@ -128,7 +128,7 @@ const { settings, sections } = await getHomepageCMS();
           {(featuredProjects.length
             ? featuredProjects
             : (projects ?? []).slice(0, 6)
-          ).map((project: any, index) => (
+          ).map((project, index) => (
             <Link
               href={`/projects/${project.slug}`}
               className={`ort-project-card ${

@@ -23,8 +23,15 @@ export async function getHomepageCMS() {
   };
 }
 
+type CMSSection = {
+  key?: string;
+  slug?: string;
+  name?: string;
+  enabled?: boolean;
+};
+
 export function isSectionEnabled(
-  sections: any[],
+  sections: CMSSection[],
   key: string
 ) {
   const section = sections.find(

@@ -23,7 +23,7 @@ export default async function BTSPage() {
       </section>
 
       <section className="ort-list-grid">
-        {(bts ?? []).map((item: any) => (
+        {(bts ?? []).map((item) => (
           <Link
             href={`/bts/${item.slug}`}
             className="ort-list-card"

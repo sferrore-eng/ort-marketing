@@ -1,6 +1,13 @@
+type CMSSection = {
+  key?: string;
+  slug?: string;
+  name?: string;
+  enabled?: boolean;
+};
+
 type CMSVisibilityProps = {
   section: string;
-  sections: any[];
+  sections: CMSSection[];
   children: React.ReactNode;
 };
 

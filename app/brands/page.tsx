@@ -23,7 +23,7 @@ export default async function BrandsPage() {
       </section>
 
       <section className="ort-brands-list-grid">
-        {(brands ?? []).map((brand: any) => (
+        {(brands ?? []).map((brand) => (
           <Link
             href={`/brands/${brand.slug}`}
             className="ort-brand-list-card"

@@ -23,7 +23,7 @@ export default async function ProjectsPage() {
       </section>
 
       <section className="ort-list-grid">
-        {(projects ?? []).map((project: any) => (
+        {(projects ?? []).map((project) => (
           <Link
             href={`/projects/${project.slug}`}
             className="ort-list-card"

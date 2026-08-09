@@ -23,7 +23,7 @@ export default async function TeamPage() {
       </section>
 
       <section className="ort-team-list-grid">
-        {(team ?? []).map((person: any) => (
+        {(team ?? []).map((person) => (
           <Link
             href={`/team/${person.slug}`}
             className="ort-person-list-card"
