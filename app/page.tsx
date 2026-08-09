@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { getHomepageCMS } from "@/lib/cms/homepage";
+import CMSVisibility from "@/components/home/CMSVisibility";
 
 import Hero from "@/components/home/Hero";
 import BrandGallery from "@/components/home/BrandGallery";
@@ -8,6 +10,7 @@ import BTSSection from "@/components/home/BTSSection";
 
 export default async function Home() {
   const supabase = await createClient();
+const { settings, sections } = await getHomepageCMS();
 
   const [
     { data: brands },
@@ -216,7 +219,7 @@ export default async function Home() {
         </h2>
 
         <a href="mailto:hello@ortmarketing.com">
-          hello@ortmarketing.com ↗
+          {settings?.email ?? "hello@ortmarketing.com"} ↗
         </a>
       </section>
 
@@ -229,7 +232,7 @@ export default async function Home() {
         <strong>ORT.</strong>
 
         <span>
-          Creative production & marketing.
+          {settings?.description ?? "Creative production & marketing."}
         </span>
 
         <span>
