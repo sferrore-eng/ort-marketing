@@ -4226,3 +4226,334 @@ body {
   }
 }
 
+
+/* =========================================
+   ORT — FINAL RESPONSIVE + UI STATES
+   ========================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- GLOBAL FOCUS ---------- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* ---------- PAGE TRANSITION ---------- */
+
+.ort-page-enter {
+  animation: ortPageEnter .55s ease both;
+}
+
+@keyframes ortPageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- LOADING ---------- */
+
+.ort-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+}
+
+.ort-loading-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: .15em;
+  opacity: .5;
+}
+
+.ort-loading-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ortPulse 1s ease-in-out infinite;
+}
+
+@keyframes ortPulse {
+  0%,
+  100% {
+    opacity: .25;
+    transform: scale(.7);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- ERROR ---------- */
+
+.ort-error {
+  min-height: 65vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 7vw;
+}
+
+.ort-error-inner {
+  max-width: 600px;
+}
+
+.ort-error-inner small {
+  font-size: 10px;
+  letter-spacing: .18em;
+  opacity: .45;
+}
+
+.ort-error-inner h1 {
+  margin: 15px 0;
+  font-size: clamp(50px, 8vw, 100px);
+  line-height: .85;
+  letter-spacing: -.07em;
+}
+
+.ort-error-inner p {
+  max-width: 450px;
+  line-height: 1.6;
+  opacity: .55;
+}
+
+.ort-error-inner a {
+  display: inline-flex;
+  margin-top: 25px;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 5px;
+}
+
+/* ---------- 404 ---------- */
+
+.ort-not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 7vw;
+  background: #111;
+  color: #fff;
+}
+
+.ort-not-found h1 {
+  margin: 10px 0 25px;
+  font-size: clamp(80px, 16vw, 220px);
+  line-height: .75;
+  letter-spacing: -.1em;
+}
+
+.ort-not-found p {
+  opacity: .55;
+  max-width: 450px;
+  line-height: 1.6;
+}
+
+.ort-not-found a {
+  display: inline-flex;
+  margin-top: 25px;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.5);
+  padding-bottom: 5px;
+}
+
+/* ---------- MOBILE HEADER ---------- */
+
+@media (max-width: 900px) {
+
+  .ort-header {
+    padding: 20px 22px;
+  }
+
+  .ort-header-logo {
+    font-size: 30px;
+  }
+
+  .ort-header nav {
+    gap: 15px;
+  }
+
+  .ort-header nav a {
+    font-size: 11px;
+  }
+
+  .ort-header-cta {
+    font-size: 11px;
+  }
+
+}
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 700px) {
+
+  .ort-header nav {
+    display: none;
+  }
+
+  .ort-header-cta {
+    display: inline-flex;
+  }
+
+  .ort-hero-actions {
+    width: 100%;
+  }
+
+  .ort-button {
+    flex: 1;
+  }
+
+  .ort-section-head > a {
+    margin-top: 5px;
+  }
+
+  .ort-list-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+}
+
+/* ---------- PHONE ---------- */
+
+@media (max-width: 480px) {
+
+  .ort-header {
+    padding: 18px;
+  }
+
+  .ort-header-logo {
+    font-size: 27px;
+  }
+
+  .ort-header-cta {
+    font-size: 10px;
+  }
+
+  .ort-hero {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ort-hero h1 {
+    font-size: 54px;
+    line-height: .86;
+  }
+
+  .ort-hero-kicker {
+    font-size: 9px;
+  }
+
+  .ort-hero p {
+    font-size: 15px;
+    max-width: 100%;
+  }
+
+  .ort-section,
+  .ort-dark-section,
+  .ort-bts-section,
+  .ort-contact {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .ort-section-head h2 {
+    font-size: 43px;
+  }
+
+  .ort-project-card,
+  .ort-project-card.large,
+  .ort-list-card,
+  .ort-list-card img {
+    min-height: 330px;
+  }
+
+  .ort-card-overlay {
+    padding: 22px;
+    padding-top: 90px;
+  }
+
+  .ort-card-overlay h3 {
+    font-size: 28px;
+  }
+
+  .ort-brand-card {
+    min-height: 110px;
+    padding: 15px;
+  }
+
+  .ort-brand-card img {
+    max-width: 110px;
+    max-height: 50px;
+  }
+
+  .ort-contact h2 {
+    font-size: 58px;
+  }
+
+  .ort-contact a {
+    font-size: 15px;
+    word-break: break-word;
+  }
+
+  .ort-footer {
+    gap: 12px;
+  }
+
+}
+
+/* ---------- REDUCED MOTION ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
+
