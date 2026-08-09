@@ -3958,3 +3958,271 @@ body {
   }
 }
 
+
+/* =========================================
+   ORT DETAIL PAGES
+   ========================================= */
+
+.ort-detail-page {
+  min-height: 100vh;
+  background: #f5f5f3;
+  color: #111;
+}
+
+.ort-detail-hero {
+  padding: 170px 7vw 80px;
+}
+
+.ort-detail-kicker {
+  font-size: 10px;
+  letter-spacing: .18em;
+  opacity: .45;
+}
+
+.ort-detail-hero h1 {
+  max-width: 1200px;
+  margin: 20px 0 0;
+  font-size: clamp(60px, 10vw, 150px);
+  line-height: .82;
+  letter-spacing: -.08em;
+}
+
+.ort-detail-description {
+  max-width: 650px;
+  margin-top: 40px;
+  font-size: 19px;
+  line-height: 1.55;
+  opacity: .6;
+}
+
+.ort-detail-cover {
+  width: 86%;
+  margin: 0 auto;
+  max-height: 78vh;
+  object-fit: cover;
+  display: block;
+}
+
+.ort-detail-content {
+  padding: 100px 7vw 140px;
+}
+
+.ort-detail-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(0,0,0,.12);
+  border-bottom: 1px solid rgba(0,0,0,.12);
+  margin-bottom: 80px;
+}
+
+.ort-detail-meta-item {
+  padding: 25px 20px 25px 0;
+  border-right: 1px solid rgba(0,0,0,.12);
+}
+
+.ort-detail-meta-item:last-child {
+  border-right: 0;
+}
+
+.ort-detail-meta-item small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: .15em;
+  opacity: .45;
+  margin-bottom: 9px;
+}
+
+.ort-detail-meta-item span {
+  font-size: 14px;
+}
+
+.ort-detail-body {
+  max-width: 850px;
+  margin: 0 auto;
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+.ort-detail-body h2 {
+  font-size: clamp(38px, 5vw, 70px);
+  line-height: .9;
+  letter-spacing: -.06em;
+  margin: 70px 0 25px;
+}
+
+.ort-detail-body p {
+  margin: 0 0 25px;
+}
+
+.ort-detail-gallery {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.ort-detail-gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.ort-detail-gallery img:first-child {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
+
+.ort-detail-next {
+  margin-top: 120px;
+  padding-top: 35px;
+  border-top: 1px solid rgba(0,0,0,.15);
+}
+
+.ort-detail-next small {
+  font-size: 9px;
+  letter-spacing: .16em;
+  opacity: .45;
+}
+
+.ort-detail-next a {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  font-size: clamp(45px, 7vw, 100px);
+  line-height: .85;
+  letter-spacing: -.07em;
+  margin-top: 15px;
+}
+
+.ort-detail-next a:hover {
+  opacity: .45;
+}
+
+.ort-detail-dark {
+  background: #111;
+  color: #fff;
+}
+
+.ort-detail-dark .ort-detail-meta {
+  border-color: rgba(255,255,255,.15);
+}
+
+.ort-detail-dark .ort-detail-meta-item {
+  border-color: rgba(255,255,255,.15);
+}
+
+.ort-detail-dark .ort-detail-next {
+  border-color: rgba(255,255,255,.15);
+}
+
+.ort-detail-person {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 8vw;
+  align-items: start;
+  padding: 160px 7vw;
+}
+
+.ort-detail-person-image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+}
+
+.ort-detail-person-info h1 {
+  margin: 20px 0;
+  font-size: clamp(60px, 8vw, 120px);
+  line-height: .82;
+  letter-spacing: -.08em;
+}
+
+.ort-detail-person-role {
+  font-size: 13px;
+  letter-spacing: .12em;
+  opacity: .45;
+  text-transform: uppercase;
+}
+
+.ort-detail-person-bio {
+  max-width: 650px;
+  margin-top: 45px;
+  font-size: 19px;
+  line-height: 1.65;
+  opacity: .65;
+}
+
+@media (max-width: 800px) {
+  .ort-detail-hero {
+    padding: 135px 22px 55px;
+  }
+
+  .ort-detail-hero h1 {
+    font-size: clamp(58px, 16vw, 100px);
+  }
+
+  .ort-detail-cover {
+    width: calc(100% - 44px);
+    max-height: 65vh;
+  }
+
+  .ort-detail-content {
+    padding: 70px 22px 90px;
+  }
+
+  .ort-detail-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ort-detail-meta-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .ort-detail-meta-item {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+
+  .ort-detail-gallery {
+    grid-template-columns: 1fr;
+    margin-top: 70px;
+  }
+
+  .ort-detail-gallery img:first-child {
+    grid-column: auto;
+  }
+
+  .ort-detail-person {
+    grid-template-columns: 1fr;
+    padding: 120px 22px 90px;
+    gap: 45px;
+  }
+
+  .ort-detail-person-info h1 {
+    font-size: 70px;
+  }
+}
+
+@media (max-width: 500px) {
+  .ort-detail-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .ort-detail-meta-item,
+  .ort-detail-meta-item:nth-child(2) {
+    border-right: 0;
+  }
+
+  .ort-detail-meta-item:last-child {
+    border-bottom: 0;
+  }
+
+  .ort-detail-description {
+    font-size: 16px;
+  }
+
+  .ort-detail-body {
+    font-size: 17px;
+  }
+}
+
