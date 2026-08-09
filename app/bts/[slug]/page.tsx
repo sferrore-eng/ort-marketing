@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function ProjectPage({
+export default async function BTSPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -10,39 +10,39 @@ export default async function ProjectPage({
   const { slug } = await params;
   const supabase = await createClient();
 
-  const { data: project } = await supabase
-    .from("projects")
+  const { data: item } = await supabase
+    .from("bts")
     .select("*")
     .eq("slug", slug)
     .eq("published", true)
     .maybeSingle();
 
-  if (!project) notFound();
+  if (!item) notFound();
 
   return (
     <main className="ort-detail-page">
       <header className="ort-detail-header">
         <Link href="/">ORT.</Link>
-        <Link href="/projects">All projects ↗</Link>
+        <Link href="/bts">All BTS ↗</Link>
       </header>
 
       <section className="ort-detail-hero">
-        {project.cover_url && (
+        {item.cover_url && (
           <img
-            src={project.cover_url}
-            alt={project.title}
+            src={item.cover_url}
+            alt={item.title}
           />
         )}
 
         <div className="ort-detail-overlay">
-          <span>PROJECT</span>
-          <h1>{project.title}</h1>
+          <span>BEHIND THE SCENES</span>
+          <h1>{item.title}</h1>
         </div>
       </section>
 
       <section className="ort-detail-content">
-        {project.description && (
-          <p>{project.description}</p>
+        {item.description && (
+          <p>{item.description}</p>
         )}
       </section>
     </main>

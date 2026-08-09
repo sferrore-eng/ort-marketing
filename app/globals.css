@@ -2436,3 +2436,290 @@ body {
     max-height: 45px;
   }
 }
+
+.ort-detail-page {
+  min-height: 100vh;
+  background: #fff;
+  color: #111;
+}
+
+.ort-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 5vw;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+.ort-detail-header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ort-detail-hero {
+  position: relative;
+  min-height: 70vh;
+  overflow: hidden;
+  background: #111;
+}
+
+.ort-detail-hero img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  display: block;
+}
+
+.ort-detail-overlay {
+  position: absolute;
+  inset: auto 5vw 6vh;
+  color: #fff;
+  z-index: 2;
+}
+
+.ort-detail-overlay span,
+.ort-person-detail span {
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+
+.ort-detail-overlay h1 {
+  margin: 12px 0 0;
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: .9;
+}
+
+.ort-detail-content {
+  max-width: 900px;
+  padding: 80px 5vw;
+}
+
+.ort-detail-content p,
+.ort-brand-detail-info p,
+.ort-person-detail p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.ort-brand-detail {
+  min-height: 70vh;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.ort-brand-detail > img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+}
+
+.ort-brand-detail-info {
+  padding: 8vw 5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ort-brand-detail-info h1 {
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: .9;
+}
+
+.ort-brand-logo {
+  max-width: 220px;
+  max-height: 100px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.ort-person-detail {
+  min-height: 70vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  padding: 6vw 5vw;
+  align-items: center;
+}
+
+.ort-person-detail img {
+  width: 100%;
+  max-height: 75vh;
+  object-fit: cover;
+}
+
+.ort-person-detail h1 {
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: .9;
+  margin: 15px 0;
+}
+
+.ort-person-detail h2 {
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 800px) {
+  .ort-brand-detail,
+  .ort-person-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .ort-detail-hero,
+  .ort-detail-hero img,
+  .ort-brand-detail > img {
+    min-height: 55vh;
+    height: 55vh;
+  }
+
+  .ort-person-detail {
+    padding: 40px 20px;
+  }
+}
+
+
+.ort-list-page {
+  min-height: 100vh;
+  background: #fff;
+  color: #111;
+}
+
+.ort-list-intro {
+  padding: 9vw 5vw 6vw;
+}
+
+.ort-list-intro span {
+  font-size: 12px;
+  letter-spacing: .15em;
+}
+
+.ort-list-intro h1 {
+  font-size: clamp(64px, 11vw, 170px);
+  line-height: .85;
+  margin: 20px 0 0;
+  letter-spacing: -.05em;
+}
+
+.ort-list-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: #111;
+}
+
+.ort-list-card {
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+  padding-bottom: 40px;
+}
+
+.ort-list-card img,
+.ort-list-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  background: #e9e9e9;
+}
+
+.ort-list-card > div {
+  padding: 24px 5vw;
+}
+
+.ort-list-card span {
+  font-size: 11px;
+  letter-spacing: .12em;
+}
+
+.ort-list-card h2 {
+  font-size: clamp(28px, 4vw, 60px);
+  margin: 10px 0 0;
+  line-height: .95;
+}
+
+.ort-brands-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #111;
+  border-left: 1px solid #111;
+}
+
+.ort-brand-list-card {
+  min-height: 260px;
+  border-right: 1px solid #111;
+  border-bottom: 1px solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-decoration: none;
+  color: #111;
+}
+
+.ort-brand-list-card img {
+  max-width: 75%;
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.ort-brand-list-card h2 {
+  font-size: 32px;
+}
+
+.ort-team-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: #111;
+}
+
+.ort-person-list-card {
+  background: #fff;
+  color: #111;
+  text-decoration: none;
+  padding-bottom: 30px;
+}
+
+.ort-person-list-card img,
+.ort-person-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  display: block;
+  background: #ddd;
+}
+
+.ort-person-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+}
+
+.ort-person-list-card h2,
+.ort-person-list-card span {
+  display: block;
+  margin-left: 25px;
+}
+
+.ort-person-list-card h2 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.ort-person-list-card span {
+  opacity: .6;
+}
+
+@media (max-width: 800px) {
+  .ort-list-grid,
+  .ort-team-list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ort-brands-list-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
