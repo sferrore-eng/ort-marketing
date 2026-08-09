@@ -37,18 +37,10 @@ export default function BTSForm({ item }: BTSFormProps) {
 
   const [title, setTitle] = useState(item?.title || "");
   const [slug, setSlug] = useState(item?.slug || "");
-  const [description, setDescription] = useState(
-    item?.description || ""
-  );
-  const [coverUrl, setCoverUrl] = useState(
-    item?.cover_url || ""
-  );
-  const [published, setPublished] = useState(
-    item?.published ?? true
-  );
-  const [featured, setFeatured] = useState(
-    item?.featured ?? false
-  );
+  const [description, setDescription] = useState(item?.description || "");
+  const [coverUrl, setCoverUrl] = useState(item?.cover_url || "");
+  const [published, setPublished] = useState(item?.published ?? true);
+  const [featured, setFeatured] = useState(item?.featured ?? false);
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -77,19 +69,7 @@ export default function BTSForm({ item }: BTSFormProps) {
     setSaving(true);
     setError("");
 
-const { data: { user } } = await supabase.auth.getUser();
-
-console.log("BTS AUTH USER:", user);
-
-if (!user) {
-  setError("You are not authenticated. Please log in again.");
-  setSaving(false);
-  return;
-}
-
-
     const payload = {
-
       title: title.trim(),
       slug: slug.trim(),
       description: description.trim() || null,
@@ -136,12 +116,9 @@ if (!user) {
         <div className="form-grid">
           <label>
             Title
-
             <input
               value={title}
-              onChange={(event) =>
-                handleTitleChange(event.target.value)
-              }
+              onChange={(event) => handleTitleChange(event.target.value)}
               placeholder="Behind the Scenes title"
               required
             />
@@ -149,12 +126,9 @@ if (!user) {
 
           <label>
             URL slug
-
             <input
               value={slug}
-              onChange={(event) =>
-                setSlug(event.target.value)
-              }
+              onChange={(event) => setSlug(event.target.value)}
               placeholder="behind-the-scenes"
               required
             />
@@ -177,12 +151,9 @@ if (!user) {
 
         <label>
           Description
-
           <textarea
             value={description}
-            onChange={(event) =>
-              setDescription(event.target.value)
-            }
+            onChange={(event) => setDescription(event.target.value)}
             placeholder="Tell the story behind this content..."
             rows={8}
           />
@@ -198,16 +169,12 @@ if (!user) {
         <div className="toggle-row">
           <div>
             <strong>Published</strong>
-            <span>
-              Show this content on the website.
-            </span>
+            <span>Show this content on the website.</span>
           </div>
 
           <button
             type="button"
-            className={`toggle ${
-              published ? "active" : ""
-            }`}
+            className={`toggle ${published ? "active" : ""}`}
             onClick={() => setPublished(!published)}
           >
             <span />
@@ -217,16 +184,12 @@ if (!user) {
         <div className="toggle-row">
           <div>
             <strong>Featured</strong>
-            <span>
-              Highlight this content on the website.
-            </span>
+            <span>Highlight this content on the website.</span>
           </div>
 
           <button
             type="button"
-            className={`toggle ${
-              featured ? "active" : ""
-            }`}
+            className={`toggle ${featured ? "active" : ""}`}
             onClick={() => setFeatured(!featured)}
           >
             <span />
@@ -234,11 +197,7 @@ if (!user) {
         </div>
       </div>
 
-      {error && (
-        <div className="form-error">
-          {error}
-        </div>
-      )}
+      {error && <div className="form-error">{error}</div>}
 
       <div className="form-actions">
         <button
