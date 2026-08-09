@@ -23,11 +23,20 @@ export default function BrandsManager({
   brands: initialBrands,
 }: BrandsManagerProps) {
   const [brands, setBrands] = useState(initialBrands);
+
   const [search, setSearch] = useState("");
+
   const [filter, setFilter] = useState<
     "all" | "published" | "draft" | "featured"
   >("all");
-  const [savingOrder, setSavingOrder] = useState<string | null>(null);
+
+  const [savingOrder, setSavingOrder] = useState<string | null>(
+    null
+  );
+
+  const [deletingBrand, setDeletingBrand] = useState<string | null>(
+    null
+  );
 
   const filteredBrands = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -53,10 +62,10 @@ export default function BrandsManager({
 
   async function moveBrand(
     brandId: string,
-    direction: "up" | "down",
+    direction: "up" | "down"
   ) {
     const index = brands.findIndex(
-      (brand) => brand.id === brandId,
+      (brand) => brand.id === brandId
     );
 
     if (index === -1) return;
@@ -117,15 +126,51 @@ export default function BrandsManager({
     };
 
     updated.sort(
-      (a, b) => a.sort_order - b.sort_order,
+      (a, b) => a.sort_order - b.sort_order
     );
 
     setBrands(updated);
     setSavingOrder(null);
   }
 
+  async function deleteBrand(brand: Brand) {
+    const confirmed = window.confirm(
+      `Delete "${brand.name}"?\n\n` +
+        `This will permanently delete this brand ` +
+        `and all Projects and Media connected to it.\n\n` +
+        `This action cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    setDeletingBrand(brand.id);
+
+    const supabase = createClient();
+
+    const { error } = await supabase
+      .from("brands")
+      .delete()
+      .eq("id", brand.id);
+
+    if (error) {
+      alert(error.message);
+      setDeletingBrand(null);
+      return;
+    }
+
+    setBrands((current) =>
+      current.filter(
+        (item) => item.id !== brand.id
+      )
+    );
+
+    setDeletingBrand(null);
+  }
+
   return (
     <>
+      {/* Toolbar */}
+
       <div className="brands-toolbar">
         <div className="brands-search">
           <input
@@ -153,9 +198,13 @@ export default function BrandsManager({
           <button
             type="button"
             className={
-              filter === "published" ? "active" : ""
+              filter === "published"
+                ? "active"
+                : ""
             }
-            onClick={() => setFilter("published")}
+            onClick={() =>
+              setFilter("published")
+            }
           >
             Published
           </button>
@@ -173,14 +222,20 @@ export default function BrandsManager({
           <button
             type="button"
             className={
-              filter === "featured" ? "active" : ""
+              filter === "featured"
+                ? "active"
+                : ""
             }
-            onClick={() => setFilter("featured")}
+            onClick={() =>
+              setFilter("featured")
+            }
           >
             Featured
           </button>
         </div>
       </div>
+
+      {/* Results count */}
 
       <div className="brands-results-count">
         {filteredBrands.length}{" "}
@@ -188,6 +243,8 @@ export default function BrandsManager({
           ? "brand"
           : "brands"}
       </div>
+
+      {/* Empty */}
 
       {filteredBrands.length === 0 ? (
         <section className="brands-empty">
@@ -205,6 +262,9 @@ export default function BrandsManager({
         </section>
       ) : (
         <section className="brands-table-wrapper">
+
+          {/* Table header */}
+
           <div className="brands-table-head">
             <span>BRAND</span>
             <span>STATUS</span>
@@ -213,104 +273,154 @@ export default function BrandsManager({
             <span>ACTION</span>
           </div>
 
+          {/* Brands */}
+
           <div className="brands-list">
-            {filteredBrands.map((brand, index) => (
-              <article
-                key={brand.id}
-                className="brand-row"
-              >
-                <div className="brand-row-main">
-                  <div className="brand-cover">
-                    {brand.cover_url ? (
-                      <img
-                        src={brand.cover_url}
-                        alt={brand.name}
-                      />
-                    ) : (
-                      <div className="brand-cover-placeholder">
-                        ORT
-                      </div>
-                    )}
+
+            {filteredBrands.map(
+              (brand, index) => (
+                <article
+                  key={brand.id}
+                  className="brand-row"
+                >
+
+                  {/* Brand */}
+
+                  <div className="brand-row-main">
+
+                    <div className="brand-cover">
+                      {brand.cover_url ? (
+                        <img
+                          src={brand.cover_url}
+                          alt={brand.name}
+                        />
+                      ) : (
+                        <div className="brand-cover-placeholder">
+                          ORT
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="brand-row-info">
+
+                      <h2>
+                        {brand.name}
+                      </h2>
+
+                      <span>
+                        {brand.short_description ||
+                          "No description added yet."}
+                      </span>
+
+                    </div>
+
                   </div>
 
-                  <div className="brand-row-info">
-                    <h2>{brand.name}</h2>
+                  {/* Status */}
 
-                    <span>
-                      {brand.short_description ||
-                        "No description added yet."}
+                  <div>
+                    <span
+                      className={
+                        brand.published
+                          ? "status-badge published"
+                          : "status-badge draft"
+                      }
+                    >
+                      {brand.published
+                        ? "Published"
+                        : "Draft"}
                     </span>
                   </div>
-                </div>
 
-                <div>
-                  <span
-                    className={
-                      brand.published
-                        ? "status-badge published"
-                        : "status-badge draft"
-                    }
-                  >
-                    {brand.published
-                      ? "Published"
-                      : "Draft"}
-                  </span>
-                </div>
+                  {/* Featured */}
 
-                <div>
-                  <span
-                    className={
-                      brand.featured
-                        ? "featured-badge active"
-                        : "featured-badge"
-                    }
-                  >
-                    {brand.featured
-                      ? "Featured"
-                      : "—"}
-                  </span>
-                </div>
+                  <div>
+                    <span
+                      className={
+                        brand.featured
+                          ? "featured-badge active"
+                          : "featured-badge"
+                      }
+                    >
+                      {brand.featured
+                        ? "Featured"
+                        : "—"}
+                    </span>
+                  </div>
 
-                <div className="order-controls">
-                  <button
-                    type="button"
-                    disabled={
-                      index === 0 ||
-                      savingOrder === brand.id
-                    }
-                    onClick={() =>
-                      moveBrand(brand.id, "up")
-                    }
-                    aria-label={`Move ${brand.name} up`}
-                  >
-                    ↑
-                  </button>
+                  {/* Order */}
 
-                  <button
-                    type="button"
-                    disabled={
-                      index === brands.length - 1 ||
-                      savingOrder === brand.id
-                    }
-                    onClick={() =>
-                      moveBrand(brand.id, "down")
-                    }
-                    aria-label={`Move ${brand.name} down`}
-                  >
-                    ↓
-                  </button>
-                </div>
+                  <div className="order-controls">
 
-                <div>
-                  <Link
-                    href={`/admin/brands/${brand.id}/edit`}
-                    className="table-action"
-                  >
-                    Edit ↗
-                  </Link>
-                </div>
-              </article>
-            ))}
+                    <button
+                      type="button"
+                      disabled={
+                        index === 0 ||
+                        savingOrder === brand.id
+                      }
+                      onClick={() =>
+                        moveBrand(
+                          brand.id,
+                          "up"
+                        )
+                      }
+                      aria-label={`Move ${brand.name} up`}
+                    >
+                      ↑
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={
+                        index ===
+                          filteredBrands.length - 1 ||
+                        savingOrder === brand.id
+                      }
+                      onClick={() =>
+                        moveBrand(
+                          brand.id,
+                          "down"
+                        )
+                      }
+                      aria-label={`Move ${brand.name} down`}
+                    >
+                      ↓
+                    </button>
+
+                  </div>
+
+                  {/* Actions */}
+
+                  <div className="brand-actions">
+
+                    <Link
+                      href={`/admin/brands/${brand.id}/edit`}
+                      className="table-action"
+                    >
+                      Edit ↗
+                    </Link>
+
+                    <button
+                      type="button"
+                      className="delete-action"
+                      disabled={
+                        deletingBrand === brand.id
+                      }
+                      onClick={() =>
+                        deleteBrand(brand)
+                      }
+                    >
+                      {deletingBrand === brand.id
+                        ? "Deleting..."
+                        : "Delete"}
+                    </button>
+
+                  </div>
+
+                </article>
+              )
+            )}
+
           </div>
         </section>
       )}
