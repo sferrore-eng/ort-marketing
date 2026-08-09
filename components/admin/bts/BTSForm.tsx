@@ -77,7 +77,19 @@ export default function BTSForm({ item }: BTSFormProps) {
     setSaving(true);
     setError("");
 
+const { data: { user } } = await supabase.auth.getUser();
+
+console.log("BTS AUTH USER:", user);
+
+if (!user) {
+  setError("You are not authenticated. Please log in again.");
+  setSaving(false);
+  return;
+}
+
+
     const payload = {
+
       title: title.trim(),
       slug: slug.trim(),
       description: description.trim() || null,
