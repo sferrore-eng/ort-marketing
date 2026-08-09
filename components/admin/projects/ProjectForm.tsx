@@ -16,22 +16,67 @@ type TeamMember = {
   role: string;
 };
 
+type Project = {
+  id: string;
+  title: string;
+  slug: string;
+  brand_id: string;
+  description: string | null;
+  cover_url: string | null;
+  published: boolean;
+  featured: boolean;
+};
+
+type ProjectTeamRow = {
+  team_member_id: string;
+  role: string;
+};
+
 type ProjectFormProps = {
   brands: Brand[];
   teamMembers: TeamMember[];
+  project?: Project;
+  projectTeam?: ProjectTeamRow[];
 };
 
 function createSlug(value: string) {
   const arabicMap: Record<string, string> = {
-    ا: "a", أ: "a", إ: "i", آ: "a",
-    ب: "b", ت: "t", ث: "th", ج: "j",
-    ح: "h", خ: "kh", د: "d", ذ: "dh",
-    ر: "r", ز: "z", س: "s", ش: "sh",
-    ص: "s", ض: "d", ط: "t", ظ: "z",
-    ع: "a", غ: "gh", ف: "f", ق: "q",
-    ك: "k", ل: "l", م: "m", ن: "n",
-    ه: "h", و: "w", ي: "y", ى: "a",
-    ة: "a", ء: "", ؤ: "w", ئ: "y",
+    ا: "a",
+    أ: "a",
+    إ: "i",
+    آ: "a",
+    ب: "b",
+    ت: "t",
+    ث: "th",
+    ج: "j",
+    ح: "h",
+    خ: "kh",
+    د: "d",
+    ذ: "dh",
+    ر: "r",
+    ز: "z",
+    س: "s",
+    ش: "sh",
+    ص: "s",
+    ض: "d",
+    ط: "t",
+    ظ: "z",
+    ع: "a",
+    غ: "gh",
+    ف: "f",
+    ق: "q",
+    ك: "k",
+    ل: "l",
+    م: "m",
+    ن: "n",
+    ه: "h",
+    و: "w",
+    ي: "y",
+    ى: "a",
+    ة: "a",
+    ء: "",
+    ؤ: "w",
+    ئ: "y",
   };
 
   return value
@@ -57,42 +102,89 @@ const roles = [
 export default function ProjectForm({
   brands,
   teamMembers,
+  project,
+  projectTeam = [],
 }: ProjectFormProps) {
   const router = useRouter();
   const supabase = createClient();
 
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [brandId, setBrandId] = useState("");
-  const [description, setDescription] = useState("");
-  const [coverUrl, setCoverUrl] = useState("");
+  const isEditing = Boolean(project?.id);
+
+  const [title, setTitle] = useState(
+    project?.title || ""
+  );
+
+  const [slug, setSlug] = useState(
+    project?.slug || ""
+  );
+
+  const [brandId, setBrandId] = useState(
+    project?.brand_id || ""
+  );
+
+  const [description, setDescription] = useState(
+    project?.description || ""
+  );
+
+  const [coverUrl, setCoverUrl] = useState(
+    project?.cover_url || ""
+  );
+
+  const [published, setPublished] = useState(
+    project?.published ?? true
+  );
+
+  const [featured, setFeatured] = useState(
+    project?.featured ?? false
+  );
 
   const [selectedTeam, setSelectedTeam] = useState<
     Record<string, string[]>
-  >({});
+  >(() => {
+    const initial: Record<string, string[]> = {};
+
+    projectTeam.forEach((item) => {
+      if (!initial[item.role]) {
+        initial[item.role] = [];
+      }
+
+      initial[item.role].push(
+        item.team_member_id
+      );
+    });
+
+    return initial;
+  });
 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setSlug(createSlug(title));
-  }, [title]);
+    if (!isEditing) {
+      setSlug(createSlug(title));
+    }
+  }, [title, isEditing]);
 
-  function toggleMember(role: string, memberId: string) {
+  function toggleMember(
+    role: string,
+    memberId: string
+  ) {
     setSelectedTeam((current) => {
       const existing = current[role] || [];
 
       return {
         ...current,
         [role]: existing.includes(memberId)
-          ? existing.filter((id) => id !== memberId)
+          ? existing.filter(
+              (id) => id !== memberId
+            )
           : [...existing, memberId],
       };
     });
   }
 
   async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
+    event: FormEvent
   ) {
     event.preventDefault();
 
@@ -106,39 +198,79 @@ export default function ProjectForm({
       return;
     }
 
+    if (!slug.trim()) {
+      setError("Project slug is required.");
+      return;
+    }
+
     setSaving(true);
     setError("");
 
-    const projectResult = await supabase
-      .from("projects")
-      .insert({
-        brand_id: brandId,
-        title: title.trim(),
-        slug,
-        description: description || null,
-        cover_url: coverUrl || null,
-        published: true,
-        featured: false,
-      })
-      .select("id")
-      .single();
+    const payload = {
+      brand_id: brandId,
+      title: title.trim(),
+      slug: slug.trim(),
+      description: description || null,
+      cover_url: coverUrl || null,
+      published,
+      featured,
+    };
 
-    if (projectResult.error) {
-      setError(projectResult.error.message);
+    let projectId = project?.id;
+
+    if (isEditing) {
+      const result = await supabase
+        .from("projects")
+        .update(payload)
+        .eq("id", project?.id);
+
+      if (result.error) {
+        setError(result.error.message);
+        setSaving(false);
+        return;
+      }
+    } else {
+      const result = await supabase
+        .from("projects")
+        .insert(payload)
+        .select("id")
+        .single();
+
+      if (result.error) {
+        setError(result.error.message);
+        setSaving(false);
+        return;
+      }
+
+      projectId = result.data.id;
+    }
+
+    if (!projectId) {
+      setError("Project ID could not be determined.");
       setSaving(false);
       return;
     }
 
-    const projectId = projectResult.data.id;
-
-    const teamRows = Object.entries(selectedTeam).flatMap(
-      ([role, memberIds]) =>
-        memberIds.map((teamMemberId) => ({
-          project_id: projectId,
-          team_member_id: teamMemberId,
-          role,
-        }))
+    const teamRows = Object.entries(
+      selectedTeam
+    ).flatMap(([role, memberIds]) =>
+      memberIds.map((teamMemberId) => ({
+        project_id: projectId,
+        team_member_id: teamMemberId,
+        role,
+      }))
     );
+
+    const deleteTeamResult = await supabase
+      .from("project_team")
+      .delete()
+      .eq("project_id", projectId);
+
+    if (deleteTeamResult.error) {
+      setError(deleteTeamResult.error.message);
+      setSaving(false);
+      return;
+    }
 
     if (teamRows.length > 0) {
       const teamResult = await supabase
@@ -146,11 +278,6 @@ export default function ProjectForm({
         .insert(teamRows);
 
       if (teamResult.error) {
-        await supabase
-          .from("projects")
-          .delete()
-          .eq("id", projectId);
-
         setError(teamResult.error.message);
         setSaving(false);
         return;
@@ -164,7 +291,7 @@ export default function ProjectForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="brand-form"
+      className="cms-form"
     >
       <div className="form-section">
         <div className="form-section-title">
@@ -175,9 +302,12 @@ export default function ProjectForm({
         <div className="form-grid">
           <label>
             Project title
+
             <input
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
               placeholder="Summer Campaign"
               required
             />
@@ -185,9 +315,12 @@ export default function ProjectForm({
 
           <label>
             Brand
+
             <select
               value={brandId}
-              onChange={(e) => setBrandId(e.target.value)}
+              onChange={(e) =>
+                setBrandId(e.target.value)
+              }
               required
             >
               <option value="">
@@ -205,6 +338,19 @@ export default function ProjectForm({
             </select>
           </label>
         </div>
+
+        <label>
+          URL slug
+
+          <input
+            value={slug}
+            onChange={(e) =>
+              setSlug(e.target.value)
+            }
+            placeholder="summer-campaign"
+            required
+          />
+        </label>
 
         <ImageUpload
           label="Project cover"
@@ -242,7 +388,8 @@ export default function ProjectForm({
 
         {roles.map((role) => {
           const members = teamMembers.filter(
-            (member) => member.role === role.value
+            (member) =>
+              member.role === role.value
           );
 
           return (
@@ -254,22 +401,26 @@ export default function ProjectForm({
 
               {members.length === 0 ? (
                 <p className="muted">
-                  No {role.label.toLowerCase()} profiles yet.
+                  No{" "}
+                  {role.label.toLowerCase()}{" "}
+                  profiles yet.
                 </p>
               ) : (
                 <div className="team-select-grid">
                   {members.map((member) => {
                     const active =
-                      selectedTeam[role.value]?.includes(
-                        member.id
-                      );
+                      selectedTeam[
+                        role.value
+                      ]?.includes(member.id);
 
                     return (
                       <button
                         key={member.id}
                         type="button"
                         className={`team-select-card ${
-                          active ? "selected" : ""
+                          active
+                            ? "selected"
+                            : ""
                         }`}
                         onClick={() =>
                           toggleMember(
@@ -282,9 +433,13 @@ export default function ProjectForm({
                           {active ? "✓" : ""}
                         </span>
 
-                        <strong>{member.name}</strong>
+                        <strong>
+                          {member.name}
+                        </strong>
 
-                        <small>{member.role}</small>
+                        <small>
+                          {member.role}
+                        </small>
                       </button>
                     );
                   })}
@@ -293,6 +448,58 @@ export default function ProjectForm({
             </div>
           );
         })}
+      </div>
+
+      <div className="form-section">
+        <div className="form-section-title">
+          <span>04</span>
+          <h2>Visibility</h2>
+        </div>
+
+        <div className="toggle-row">
+          <div>
+            <strong>Published</strong>
+
+            <span>
+              Show this project on the website.
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className={`toggle ${
+              published ? "active" : ""
+            }`}
+            onClick={() =>
+              setPublished(!published)
+            }
+          >
+            <span />
+          </button>
+        </div>
+
+        <div className="toggle-row">
+          <div>
+            <strong>Featured</strong>
+
+            <span>
+              Highlight this project on the
+              homepage.
+            </span>
+          </div>
+
+          <button
+            type="button"
+            className={`toggle ${
+              featured ? "active" : ""
+            }`}
+            onClick={() =>
+              setFeatured(!featured)
+            }
+          >
+            <span />
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -317,7 +524,11 @@ export default function ProjectForm({
           disabled={saving}
           className="button-primary"
         >
-          {saving ? "Creating..." : "Create project"}
+          {saving
+            ? "Saving..."
+            : isEditing
+              ? "Save changes"
+              : "Create project"}
         </button>
       </div>
     </form>

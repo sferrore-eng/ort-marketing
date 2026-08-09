@@ -1392,3 +1392,46 @@ body {
   }
 }
 
+
+.projects-table-head,
+.project-row {
+  grid-template-columns:
+    minmax(300px, 1fr)
+    140px
+    130px
+    90px
+    150px;
+}
+
+.projects-page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 36px;
+}
+
+.projects-page-header h1 {
+  margin: 6px 0 10px;
+}
+
+.project-row {
+  min-height: 96px;
+}
+
+@media (max-width: 1000px) {
+  .projects-table-head {
+    display: none;
+  }
+
+  .project-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .projects-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
